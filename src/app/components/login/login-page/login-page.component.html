@@ -1,0 +1,25 @@
+<app-header></app-header>
+
+<form class="register-wrapper">
+  <h3 class="title">Login</h3>
+
+  <div class="example-container mb">
+    <mat-form-field appearance="fill">
+      <mat-label>Enter your email</mat-label>
+      <input matInput placeholder="example@example.com" [formControl]="mail" required>
+      <mat-error *ngIf="mail.invalid">{{getMailError()}}</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="example-container mb">
+    <mat-form-field appearance="fill">
+      <mat-label>Enter your password</mat-label>
+      <input matInput placeholder="******" [formControl]="password" type="password" required autocomplete="off">
+      <mat-error *ngIf="password.invalid">{{getPasswordError()}}</mat-error>
+    </mat-form-field>
+  </div>
+
+  <button mat-raised-button color="primary" (click)="onLogin()"
+          [disabled]="mail.invalid || password.invalid">Login
+  </button>
+</form>

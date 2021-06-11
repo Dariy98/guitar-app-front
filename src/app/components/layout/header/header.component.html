@@ -1,0 +1,8 @@
+<mat-toolbar class="header">
+  <span>My Application</span>
+  <a mat-flat-button
+     href="{{isRegisterPage ? '/login' : 'sign-up'}}"
+  >
+    {{ isRegisterPage ? 'I\'m a register user' : 'Authorization' }}
+  </a>
+</mat-toolbar>
