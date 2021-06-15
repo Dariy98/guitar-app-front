@@ -1,0 +1,17 @@
+{
+  "auth": {
+    "register": "Регистрация",
+    "login": "Авторизация",
+    "buttons": {
+      "haveAcc": "У меня есть аккаунт",
+      "goToReg": "Зарегестрироваться",
+      "login": "Войти",
+      "regMe": "Зарегистрироваться"
+    },
+    "labels": {
+      "enterNickName": "Введите ваше имя",
+      "enterEmail": "Введите ваш email",
+      "enterPassword": "Введите ваш пароль"
+    }
+  }
+}

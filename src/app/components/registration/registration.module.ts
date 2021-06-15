@@ -7,19 +7,23 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {HttpClientModule} from '@angular/common/http';
 import {HeaderModule} from '../layout/header/header.module';
+import {TranslateModule} from '@ngx-translate/core';
+import {FooterModule} from '../layout/footer/footer.module';
 
 @NgModule({
   declarations: [RegisterFormComponent],
-  imports: [
-    CommonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    HttpClientModule, // TODO ??
-    HeaderModule,
-  ],
+    imports: [
+        CommonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        HttpClientModule, // TODO ??
+        HeaderModule,
+        TranslateModule,
+        FooterModule
+    ],
   exports: [MatFormFieldModule, MatInputModule, MatButtonModule],
   providers: []
 })

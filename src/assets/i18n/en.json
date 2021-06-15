@@ -1,0 +1,17 @@
+{
+  "auth": {
+    "register": "Register",
+    "login": "Login",
+    "buttons": {
+      "haveAcc": "I have an account",
+      "goToReg": "Register",
+      "login": "Login",
+      "regMe": "Register me"
+    },
+    "labels": {
+      "enterNickName": "Enter your nickname",
+      "enterEmail": "Enter your email",
+      "enterPassword": "Enter your password"
+    }
+  }
+}

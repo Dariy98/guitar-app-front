@@ -2,10 +2,10 @@
   <span>My Application</span>
 
   <a *ngIf="isLoginPage" mat-flat-button href="/sign-up">
-    Authorization
+    {{ 'auth.buttons.goToReg' | translate }}
   </a>
 
   <a *ngIf="isRegisterPage" mat-flat-button href="/login">
-    I have an account
+    {{ 'auth.buttons.haveAcc' | translate }}
   </a>
 </mat-toolbar>
