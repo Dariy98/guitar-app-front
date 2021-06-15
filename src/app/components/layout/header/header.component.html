@@ -1,8 +1,11 @@
 <mat-toolbar class="header">
   <span>My Application</span>
-  <a mat-flat-button
-     href="{{isRegisterPage ? '/login' : 'sign-up'}}"
-  >
-    {{ isRegisterPage ? 'I\'m a register user' : 'Authorization' }}
+
+  <a *ngIf="isLoginPage" mat-flat-button href="/sign-up">
+    Authorization
+  </a>
+
+  <a *ngIf="isRegisterPage" mat-flat-button href="/login">
+    I have an account
   </a>
 </mat-toolbar>

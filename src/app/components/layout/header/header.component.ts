@@ -11,6 +11,7 @@ export class HeaderComponent implements OnInit {
   }
 
   @Input('isRegisterPage') isRegisterPage = false;
+  @Input('isLoginPage') isLoginPage = false;
 
   ngOnInit(): void {
   }

@@ -70,10 +70,11 @@ export class RegisterFormComponent implements OnInit {
       password: this.password.value,
     });
 
-    await this.authService.user$.subscribe((user) => {
-      if (user) {
-        this.router.navigate(['/home']).catch(err => console.error({err}));
-      }
-    });
+    await this.authService.user$
+      .subscribe((user) => {
+        if (user) {
+          this.router.navigate(['/home']).catch(err => console.error({err}));
+        }
+      });
   }
 }

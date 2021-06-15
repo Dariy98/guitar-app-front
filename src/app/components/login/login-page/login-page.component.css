@@ -18,3 +18,10 @@
 .mb {
   margin-bottom: 15px;
 }
+
+.error {
+  margin-top: -18px;
+  color: red;
+  font-size: 13px;
+}
+

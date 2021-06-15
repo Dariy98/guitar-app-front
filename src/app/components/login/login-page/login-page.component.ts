@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
+import {AuthService} from '../../../services/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login-page',
@@ -14,8 +16,12 @@ export class LoginPageComponent implements OnInit {
   public password = new FormControl('',
     [Validators.required, Validators.minLength(4), Validators.maxLength(10)]
   );
+  public error: string;
 
-  constructor() {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+  ) {
   }
 
   public ngOnInit(): void {
@@ -36,8 +42,25 @@ export class LoginPageComponent implements OnInit {
     return '';
   }
 
-  public onLogin() {
+  public async onLogin() {
+    await this.authService.checkUserInDB({
+      email: this.mail.value,
+      password: this.password.value,
+    });
 
+    await this.authService.user$
+      .subscribe((user) => {
+        if (user) {
+          this.router.navigate(['/home']).catch(err => console.error({err}));
+        }
+      });
+
+    await this.authService.error$
+      .subscribe((errorMessage) => {
+        if (errorMessage) {
+          this.error = errorMessage;
+        }
+      });
   }
 
 }
