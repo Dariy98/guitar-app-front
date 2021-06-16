@@ -1,16 +1,30 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { LoginPageComponent } from './login-page.component';
+import {LoginPageComponent} from './login-page.component';
+import {AuthService} from '../../../services/auth.service';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {Router} from '@angular/router';
+import {TranslateModule} from '@ngx-translate/core';
 
 describe('LoginPageComponent', () => {
   let component: LoginPageComponent;
   let fixture: ComponentFixture<LoginPageComponent>;
+  const router = {
+    navigate: jasmine.createSpy('navigate'),
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LoginPageComponent ]
+      declarations: [LoginPageComponent],
+      imports: [HttpClientTestingModule, TranslateModule.forRoot()],
+      providers: [AuthService,
+        {
+          provide: Router,
+          useValue: router
+        }
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

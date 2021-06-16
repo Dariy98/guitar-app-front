@@ -22,35 +22,33 @@ import {LoginModule} from './components/login/login.module';
 import {FooterModule} from './components/layout/footer/footer.module';
 
 
-export function HttpLoaderFactory(http: HttpClient) {
+export function HttpLoadFactory(http: HttpClient) {
   return (new TranslateHttpLoader(http, './assets/i18n/', '.json'));
 }
 
-export const LANGUAGE = new BehaviorSubject<any>(localStorage.getItem('lang'));
+const systemLanguage = window.navigator.language.substr(0, 2);
+export const LANGUAGE = new BehaviorSubject<any>(systemLanguage);
 
-export function appInitializerFactory(translate: TranslateService, injector: Injector) {
+export function appInitialFactory(translate: TranslateService, injector: Injector) {
   return () => new Promise<any>((resolve: any) => {
     const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
     locationInitialized.then(() => {
-      const systemLanguage = window.navigator.language.substr(0, 2);
-      const langToSet = systemLanguage;
       LANGUAGE.subscribe((lang) => {
         if (lang) {
-          translate.use(lang).subscribe();
+          translate.use(lang).subscribe(
+            () => {
+              console.log(`Successfully initialized this - '${lang}' language.`);
+            },
+            (err) => {
+              console.error(`Error with '${lang}' language initialization.`);
+            },
+            () => {
+              resolve(null);
+            }
+          );
         }
       });
-      // const langToSet = 'en';
       translate.setDefaultLang(systemLanguage);
-      translate.use(langToSet).subscribe(
-        () => {
-          console.log(`Successfully initialized this - '${langToSet}' language.`);
-        },
-        (err) => {
-          console.error(`Error with '${langToSet}' language initialization.`);
-        },
-        () => {
-          resolve(null);
-        });
     }).catch(err => {
       console.error(err);
     });
@@ -81,7 +79,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
+        useFactory: HttpLoadFactory,
         deps: [HttpClient]
       }
     }),
@@ -89,7 +87,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
   providers: [
     {
       provide: APP_INITIALIZER,
-      useFactory: appInitializerFactory,
+      useFactory: appInitialFactory,
       deps: [TranslateService, Injector],
       multi: true
     },

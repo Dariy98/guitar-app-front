@@ -28,7 +28,7 @@
   </div>
 
   <button mat-raised-button color="primary" (click)="sendData()"
-          [disabled]="name.invalid || email.invalid || password.invalid">
+          [disabled]="name.invalid || email.invalid || password.invalid" class="test">
     {{ 'auth.buttons.regMe' | translate }}
   </button>
 </form>
