@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import {AuthService} from '../../../services/auth.service';
 import {Router} from '@angular/router';
+import {HttpResponse} from '@angular/common/http';
+import {IUser} from '../../../interfases/interfaces';
 
 @Component({
   selector: 'app-login-page',
@@ -46,21 +48,15 @@ export class LoginPageComponent implements OnInit {
     await this.authService.checkUserInDB({
       email: this.mail.value,
       password: this.password.value,
-    });
-
-    await this.authService.user$
-      .subscribe((user) => {
-        if (user) {
-          this.router.navigate(['/home']).catch(err => console.error({err}));
-        }
-      });
-
-    await this.authService.error$
-      .subscribe((errorMessage) => {
-        if (errorMessage) {
-          this.error = errorMessage;
-        }
-      });
+    }).subscribe(
+      (res: HttpResponse<IUser>) => {
+        this.error = '';
+        return this.router.navigate(['/home']).catch(err => console.error({err}));
+      },
+      (error) => {
+        this.error = error.error;
+      }
+    );
   }
 
 }

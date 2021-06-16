@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import {AuthService} from '../../../services/auth.service';
 import {Router} from '@angular/router';
+import {BehaviorSubject} from 'rxjs';
+import {IAuthData, IUser} from '../../../interfases/interfaces';
 
 @Component({
   selector: 'app-register-form',
@@ -19,6 +21,7 @@ export class RegisterFormComponent implements OnInit {
   public password = new FormControl('',
     [Validators.required, Validators.minLength(4), Validators.maxLength(10)]
   );
+  public user$: BehaviorSubject<IUser> = new BehaviorSubject<IUser>(undefined);
 
   constructor(
     private authService: AuthService,
@@ -64,17 +67,19 @@ export class RegisterFormComponent implements OnInit {
   }
 
   public async sendData() {
-    await this.authService.addNewUser({
+    this.authService.addNewUser({
       name: this.name.value,
       email: this.email.value,
       password: this.password.value,
+    }).subscribe((res: IAuthData) => {
+      if (res) {
+        this.user$.next({
+          name: res.name,
+          email: res.email,
+        });
+        return this.router.navigate(['/home']).catch(err => console.error({err}));
+      }
+      return this.user$.next(null);
     });
-
-    await this.authService.user$
-      .subscribe((user) => {
-        if (user) {
-          this.router.navigate(['/home']).catch(err => console.error({err}));
-        }
-      });
   }
 }

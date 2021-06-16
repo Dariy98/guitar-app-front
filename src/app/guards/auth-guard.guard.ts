@@ -15,11 +15,12 @@ export class AuthGuardGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
     return new Promise((resolve) => {
       let flag = false;
+      // TODO ??
       this.authService.user$
         .subscribe((user) => {
-          if (user) {
-            flag = true;
-          }
+          // if (user) {
+          flag = true;
+          // }
 
           resolve(flag);
         });
