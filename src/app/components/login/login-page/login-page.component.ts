@@ -3,7 +3,7 @@ import {FormControl, Validators} from '@angular/forms';
 import {AuthService} from '../../../services/auth.service';
 import {Router} from '@angular/router';
 import {HttpResponse} from '@angular/common/http';
-import {IUser} from '../../../interfases/interfaces';
+import {IAuthResponse} from '../../../interfases/interfaces';
 
 @Component({
   selector: 'app-login-page',
@@ -49,7 +49,10 @@ export class LoginPageComponent implements OnInit {
       email: this.mail.value,
       password: this.password.value,
     }).subscribe(
-      (res: HttpResponse<IUser>) => {
+      (res: HttpResponse<IAuthResponse>) => {
+        console.log('res', res);
+        localStorage.setItem('token', res.body.access_token);
+        localStorage.setItem('user', JSON.stringify(res.body.user));
         this.error = '';
         return this.router.navigate(['/home']).catch(err => console.error({err}));
       },

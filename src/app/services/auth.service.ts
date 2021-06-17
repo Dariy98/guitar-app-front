@@ -1,15 +1,12 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {IAuthData, ILoginData, IUser} from '../interfases/interfaces';
+import {IAuthData, ILoginData} from '../interfases/interfaces';
 import {environment} from '../../environments/environment';
-import {BehaviorSubject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-
-  public user$: BehaviorSubject<IUser> = new BehaviorSubject<IUser>(undefined);
 
   constructor(
     private http: HttpClient
@@ -22,5 +19,9 @@ export class AuthService {
 
   public checkUserInDB(loginData: ILoginData) {
     return this.http.post(`${environment.serverUrl}/login`, loginData, {observe: 'response'});
+  }
+
+  public checkToken(token: string) {
+    return this.http.get(`${environment.serverUrl}/login/${token}`);
   }
 }

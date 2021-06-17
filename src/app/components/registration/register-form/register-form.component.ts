@@ -3,7 +3,7 @@ import {FormControl, Validators} from '@angular/forms';
 import {AuthService} from '../../../services/auth.service';
 import {Router} from '@angular/router';
 import {BehaviorSubject} from 'rxjs';
-import {IAuthData, IUser} from '../../../interfases/interfaces';
+import {IAuthResponse, IUser} from '../../../interfases/interfaces';
 
 @Component({
   selector: 'app-register-form',
@@ -71,15 +71,19 @@ export class RegisterFormComponent implements OnInit {
       name: this.name.value,
       email: this.email.value,
       password: this.password.value,
-    }).subscribe((res: IAuthData) => {
-      if (res) {
-        this.user$.next({
-          name: res.name,
-          email: res.email,
-        });
-        return this.router.navigate(['/home']).catch(err => console.error({err}));
+    }).subscribe((res: IAuthResponse) => {
+        console.log('sendData res: ', res);
+        if (res) {
+          localStorage.setItem('token', res.access_token);
+          localStorage.setItem('user', JSON.stringify(res.user));
+          this.user$.next({
+            name: res.user.name,
+            email: res.user.email,
+          });
+          return this.router.navigate(['/home']).catch(err => console.error({err}));
+        }
+        return this.user$.next(null);
       }
-      return this.user$.next(null);
-    });
+    );
   }
 }

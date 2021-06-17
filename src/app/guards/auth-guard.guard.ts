@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
+import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router} from '@angular/router';
 import {AuthService} from '../services/auth.service';
 
 @Injectable({
@@ -9,21 +9,30 @@ export class AuthGuardGuard implements CanActivate {
 
   constructor(
     private authService: AuthService,
+    private router: Router,
   ) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
     return new Promise((resolve) => {
-      let flag = false;
-      // TODO ??
-      this.authService.user$
-        .subscribe((user) => {
-          // if (user) {
-          flag = true;
-          // }
-
-          resolve(flag);
-        });
+      if (localStorage.getItem('token')) {
+        this.authService.checkToken(localStorage.getItem('token'))
+          .subscribe(
+            (res) => {
+              resolve(true);
+            },
+            (error) => {
+              console.log(error);
+              localStorage.removeItem('token');
+              localStorage.removeItem('user');
+              resolve(false);
+              return this.router.navigate(['/login']).catch(err => console.error({err}));
+            }
+          );
+      } else {
+        resolve(false);
+        return this.router.navigate(['/login']).catch(err => console.error({err}));
+      }
     });
   }
 }

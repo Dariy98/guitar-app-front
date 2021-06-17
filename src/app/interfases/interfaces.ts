@@ -10,6 +10,12 @@ export interface IUser {
 }
 
 export interface ILoginData {
+  token?: string;
   email: string;
   password: string;
+}
+
+export interface IAuthResponse {
+  access_token: string;
+  user: IUser;
 }
