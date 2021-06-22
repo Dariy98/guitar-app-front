@@ -1,4 +1,58 @@
 <app-header></app-header>
-<p>home-page works!</p>
+
+<mat-drawer-container class="drawer">
+  <mat-drawer mode="side" opened class="menu">
+
+    <div class="forms-wrapper">
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'home.options.selectClass' | translate }}</mat-label>
+        <mat-select [(value)]="selectedClass" (change)="selectClass($event)">
+          <mat-option></mat-option>
+          <mat-option [value]="options.value"
+                      *ngFor="let options of classes">{{options.viewValue}} {{ 'home.options.class' | translate}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'home.options.selectGenre' | translate }}</mat-label>
+        <mat-select [(value)]="selectedGenre" (change)="selectGenre($event)">
+          <mat-option></mat-option>
+          <mat-option [value]="option.value"
+                      *ngFor="let option of genres">{{ option.viewValue | translate}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'home.options.selectLevel' | translate }}</mat-label>
+        <mat-select [(value)]="selectedLevel" (change)="selectLevel($event)">
+          <mat-option></mat-option>
+          <mat-option [value]="option.value"
+                      *ngFor="let option of levels">{{ option.viewValue | translate}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+  </mat-drawer>
+
+  <mat-drawer-content class="main-content">
+    Main content
+
+    <!--    test-->
+    <div *ngFor="let user of users" style="border: 1px solid red">
+      <p>{{user.name}}</p>
+      <p>{{user.email}}</p>
+      <p>{{user.id}}</p>
+    </div>
+
+    <mat-paginator [length]="usersDataLength"
+                   [pageSize]="8"
+                   (page)="handlePageEvent($event)"
+                   class="pagination"
+    >
+    </mat-paginator>
+
+  </mat-drawer-content>
+
+</mat-drawer-container>
 
 <app-footer></app-footer>

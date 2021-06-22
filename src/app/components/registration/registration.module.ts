@@ -5,7 +5,6 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
-import {HttpClientModule} from '@angular/common/http';
 import {HeaderModule} from '../layout/header/header.module';
 import {TranslateModule} from '@ngx-translate/core';
 import {FooterModule} from '../layout/footer/footer.module';
@@ -19,7 +18,6 @@ import {FooterModule} from '../layout/footer/footer.module';
         FormsModule,
         ReactiveFormsModule,
         MatButtonModule,
-        HttpClientModule, // TODO ??
         HeaderModule,
         TranslateModule,
         FooterModule

@@ -13,5 +13,20 @@
       "enterEmail": "Введите ваш email",
       "enterPassword": "Введите ваш пароль"
     }
+  },
+  "home": {
+    "options": {
+      "selectClass": "Выберите класс",
+      "selectGenre": "Выберите жанр",
+      "selectLevel": "Выберите успеваемость",
+      "class": "класс",
+      "polyphony": "полифония",
+      "etude": "этюд",
+      "play": "пьеса",
+      "praxis": "упражнения",
+      "bad": "плохо",
+      "average": "средне",
+      "good": "отлично"
+    }
   }
 }

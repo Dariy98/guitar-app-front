@@ -13,5 +13,20 @@
       "enterEmail": "Enter your email",
       "enterPassword": "Enter your password"
     }
+  },
+  "home": {
+    "options": {
+      "selectClass": "Select class",
+      "selectGenre": "Select genre",
+      "selectLevel": "Select level",
+      "class": "class",
+      "polyphony": "polyphony",
+      "etude": "etude",
+      "play": "play",
+      "praxis": "praxis",
+      "bad": "bad",
+      "average": "average",
+      "good": "good"
+    }
   }
 }
