@@ -30,18 +30,49 @@
                       *ngFor="let option of levels">{{ option.viewValue | translate}}</mat-option>
         </mat-select>
       </mat-form-field>
+
+      <input type="file" class="file-input" multiple
+             (change)="onFileSelected($event)" #fileUpload>
+
+      <div class="file-upload">
+        {{fileName || 'No files uploaded yet.'}}
+        <button mat-mini-fab color="primary" class="upload-btn"
+                (click)="fileUpload.click()">
+          <mat-icon>attach_file</mat-icon>
+        </button>
+      </div>
+
+      <div class="progress">
+        <mat-progress-bar *ngIf="uploadProgress"
+                          class="progress-bar"
+                          mode="determinate"
+                          [value]="uploadProgress"
+        >
+        </mat-progress-bar>
+        <mat-icon class="cancel-upload" (click)="cancelUpload()"
+                  *ngIf="uploadProgress">delete_forever
+        </mat-icon>
+      </div>
     </div>
+
+    <button mat-raised-button color="primary" (click)="sendFiles()">Send</button>
 
   </mat-drawer>
 
   <mat-drawer-content class="main-content">
-    Main content
+    <span>Main content</span>
 
-    <!--    test-->
-    <div *ngFor="let user of users" style="border: 1px solid red">
-      <p>{{user.name}}</p>
-      <p>{{user.email}}</p>
-      <p>{{user.id}}</p>
+    <div class="scroll-cards">
+
+      <!--      <div style="display: flex; flex-wrap: wrap;">-->
+      <!--    test max-width: 33%; width: 100%;-->
+      <div *ngFor="let user of users" style="border: 1px solid red;">
+        <p>{{user.name}}</p>
+        <p>{{user.email}}</p>
+        <p>{{user.id}}</p>
+      </div>
+      <!--      </div>-->
+
     </div>
 
     <mat-paginator [length]="usersDataLength"

@@ -7,6 +7,10 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatSelectModule} from '@angular/material/select';
 import {TranslateModule} from '@ngx-translate/core';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 
 @NgModule({
@@ -19,6 +23,11 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatSelectModule,
     TranslateModule,
     MatPaginatorModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressBarModule,
   ]
 })
 export class HomeModule {

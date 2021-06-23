@@ -12,9 +12,8 @@ export class PaginationService {
   ) {
   }
 
-  public testPagination(link: string) {
+  public getPaginationData(link: string) {
     const url = `${environment.serverUrl}${link}`;
-    console.log({url});
     return this.http.get(url);
   }
 }

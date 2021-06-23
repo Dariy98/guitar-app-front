@@ -2,6 +2,9 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PageEvent} from '@angular/material/paginator';
 import {PaginationService} from '../../../services/pagination.service';
 import {Subscription} from 'rxjs';
+import {FilesService} from '../../../services/files.service';
+import {finalize} from 'rxjs/operators';
+import {HttpEventType} from '@angular/common/http';
 
 @Component({
   selector: 'app-home-page',
@@ -34,20 +37,24 @@ export class HomePageComponent implements OnInit, OnDestroy {
   public selectedClass: string;
   public selectedLevel: string;
   public usersDataLength: number;
+  public fileName = '';
+  public uploadProgress: number;
+  users = []; // TODO other data
   private subscriptions: Subscription[] = [];
   private lastPageIndex: number;
   private firstPaginationSub: Subscription;
+  private uploadSub: Subscription;
   private lastResponseUrls;
-
-  users = [];
+  private files;
 
   constructor(
     private paginationService: PaginationService,
+    private filesService: FilesService,
   ) {
   }
 
   public ngOnInit(): void {
-    this.firstPaginationSub = this.paginationService.testPagination('/users?limit=8')
+    this.firstPaginationSub = this.paginationService.getPaginationData('/users?limit=8')
       .subscribe((res: any) => {
         this.users = res.items;
         this.usersDataLength = res.meta.totalItems;
@@ -83,13 +90,57 @@ export class HomePageComponent implements OnInit, OnDestroy {
     }
 
     this.subscriptions.push(
-      this.paginationService.testPagination(link)
+      this.paginationService.getPaginationData(link)
         .subscribe((res: any) => {
           this.users = [...res.items];
           this.lastResponseUrls = res.links;
           this.lastPageIndex = event.pageIndex;
         })
     );
+  }
+
+  public onFileSelected(event) {
+    this.files = event.target.files;
+    console.log('this.files', this.files);
+
+    if (this.files) {
+      for (const key in this.files) {
+        if (this.files.hasOwnProperty(key)) {
+          this.fileName = this.fileName + this.files[key].name + '; ';
+        }
+      }
+    }
+  }
+
+  public sendFiles() {
+    if (this.files) {
+      const formData = new FormData();
+      for (const key in this.files) {
+        if (this.files.hasOwnProperty(key)) {
+          formData.append('file', this.files[key]);
+        }
+      }
+
+      this.uploadSub = this.filesService.sendFile(formData)
+        .pipe(
+          finalize(() => this.reset())
+        )
+        .subscribe((httpEvent) => {
+          if (httpEvent.type === HttpEventType.UploadProgress) {
+            this.uploadProgress = Math.round(100 * (httpEvent.loaded / httpEvent.total));
+          }
+        });
+    }
+  }
+
+  public cancelUpload() {
+    this.uploadSub.unsubscribe();
+    this.reset();
+  }
+
+  public reset() {
+    this.uploadProgress = null;
+    this.uploadSub = null;
   }
 
 }
