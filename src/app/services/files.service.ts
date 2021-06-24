@@ -13,8 +13,9 @@ export class FilesService {
   }
 
   public sendFile(formData) {
-    return this.http.post(`${environment.serverUrl}/upload`, formData, {
+    return this.http.post(`${environment.serverUrl}/files`, formData, {
         reportProgress: true,
+        // responseType: 'arraybuffer',
         observe: 'events'
       }
     );

@@ -22,7 +22,6 @@ export class AuthGuardGuard implements CanActivate {
               resolve(true);
             },
             (error) => {
-              console.log(error);
               localStorage.removeItem('token');
               localStorage.removeItem('user');
               resolve(false);

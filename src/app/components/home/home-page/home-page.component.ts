@@ -5,6 +5,7 @@ import {Subscription} from 'rxjs';
 import {FilesService} from '../../../services/files.service';
 import {finalize} from 'rxjs/operators';
 import {HttpEventType} from '@angular/common/http';
+import {Level} from "../../../interfases/interfaces";
 
 @Component({
   selector: 'app-home-page',
@@ -121,14 +122,33 @@ export class HomePageComponent implements OnInit, OnDestroy {
         }
       }
 
+      // TODO title and other
+      formData.append('title', 'my test title');
+      formData.append('description', 'desc');
+      formData.append('genre', 'etude');
+      formData.append('class', '2');
+      formData.append('level', Level.Average);
+
       this.uploadSub = this.filesService.sendFile(formData)
         .pipe(
           finalize(() => this.reset())
         )
-        .subscribe((httpEvent) => {
+        .subscribe((httpEvent: any) => {
+          console.log('httpEvent', httpEvent);
+
           if (httpEvent.type === HttpEventType.UploadProgress) {
             this.uploadProgress = Math.round(100 * (httpEvent.loaded / httpEvent.total));
           }
+          // if (httpEvent.type === HttpEventType.Response) {
+          //   const test = new Uint8Array([httpEvent.body.file.data]);
+          //   const blob = new Blob([test], {type: 'image/jpeg'});
+          //   const url = window.URL.createObjectURL(blob);
+          //   this.imageBlob = url;
+          //   // const pwa = window.open(url);
+          //   // if (!pwa || pwa.closed || typeof pwa.closed === 'undefined') {
+          //   //   alert('Please disable your Pop-up blocker and try again.');
+          //   // }
+          // }
         });
     }
   }

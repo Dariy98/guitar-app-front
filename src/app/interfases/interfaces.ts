@@ -19,3 +19,9 @@ export interface IAuthResponse {
   access_token: string;
   user: IUser;
 }
+
+export enum Level {
+  Bad = 'bad',
+  Average = 'average',
+  Good = 'good',
+}
