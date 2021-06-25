@@ -30,7 +30,8 @@
     }
   },
   "header": {
-    "suggestOption": "Предложи свой вариант"
+    "suggestOption": "Предложи свой вариант",
+    "exit": "Выйти"
   },
   "modals": {
     "close": "Закрыть",

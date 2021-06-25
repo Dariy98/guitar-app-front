@@ -16,4 +16,12 @@
   >
     {{ 'header.suggestOption' | translate }}
   </button>
+
+  <button *ngIf="!isRegisterPage && !isLoginPage"
+          mat-raised-button
+          color="accent"
+          (click)="onLogout()"
+  >
+    {{ 'header.exit' | translate }}
+  </button>
 </mat-toolbar>

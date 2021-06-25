@@ -50,7 +50,6 @@ export class LoginPageComponent implements OnInit {
       password: this.password.value,
     }).subscribe(
       (res: HttpResponse<IAuthResponse>) => {
-        // console.log('res', res);
         localStorage.setItem('token', res.body.access_token);
         localStorage.setItem('user', JSON.stringify(res.body.user));
         this.error = '';

@@ -30,7 +30,8 @@
     }
   },
   "header": {
-    "suggestOption": "Suggest your option"
+    "suggestOption": "Suggest your option",
+    "exit": "Exit"
   },
   "modals": {
     "close": "Close",

@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ModalForAddComponent} from '../../modal-for-add/modal-for-add/modal-for-add.component';
 import {MatDialog} from '@angular/material/dialog';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -11,20 +12,30 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
+    private router: Router,
   ) {
   }
 
+  // tslint:disable
   @Input('isRegisterPage') isRegisterPage = false;
   @Input('isLoginPage') isLoginPage = false;
+
+  // tslint:enable
 
   ngOnInit(): void {
   }
 
-  public openDialog() {
-    const dialogRef = this.dialog.open(ModalForAddComponent, {disableClose: true});
+  public onLogout() {
+    // TODO add agree modal
+    localStorage.removeItem('token');
+    this.router.navigate(['/login']).catch(err => console.error({err}));
+  }
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+  public openDialog() {
+    const dialogRef = this.dialog.open(ModalForAddComponent, {
+      disableClose: true,
+      minWidth: 890,
+      minHeight: 680,
     });
   }
 

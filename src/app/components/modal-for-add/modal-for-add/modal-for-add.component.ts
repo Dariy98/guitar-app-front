@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {classes, genres, levels} from 'src/app/interfases/constants';
 import {Subscription} from 'rxjs';
-import {Level} from '../../../interfases/interfaces';
-import {finalize} from 'rxjs/operators';
 import {HttpEventType} from '@angular/common/http';
 import {FilesService} from '../../../services/files.service';
 import {FormControl, Validators} from '@angular/forms';
+import {MatDialog} from '@angular/material/dialog';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-modal-for-add',
@@ -15,21 +15,23 @@ import {FormControl, Validators} from '@angular/forms';
 export class ModalForAddComponent implements OnInit {
 
   public title = new FormControl('', [Validators.required]);
-  public selectedGenre: string;
+  public genre: string;
   public selectedClass: string;
-  public selectedLevel: string;
-  public uploadProgress: number;
+  public level: string;
+  public error: string;
   public fileName = '';
   public genres = genres;
   public classes = classes;
   public levels = levels;
   public loading: boolean;
-  private files;
-  private description: string;
+  public files;
+  private description = '';
   private uploadSub: Subscription;
 
   constructor(
     private filesService: FilesService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar,
   ) {
   }
 
@@ -52,11 +54,11 @@ export class ModalForAddComponent implements OnInit {
   }
 
   public selectGenre(event) {
-    this.selectedGenre = event.value;
+    this.genre = event.value;
   }
 
   public selectLevel(event) {
-    this.selectedLevel = event.value;
+    this.level = event.value;
   }
 
   public fileSelected(event) {
@@ -71,17 +73,10 @@ export class ModalForAddComponent implements OnInit {
     }
   }
 
-  public cancelUpload() {
-    this.uploadSub.unsubscribe();
-    this.reset();
-  }
+  public sendData() {
+    this.loading = true;
+    this.error = '';
 
-  private reset() {
-    this.uploadProgress = null;
-    this.uploadSub = null;
-  }
-
-  private sendFiles() {
     if (this.files) {
       const formData = new FormData();
       for (const key in this.files) {
@@ -90,42 +85,43 @@ export class ModalForAddComponent implements OnInit {
         }
       }
 
-      formData.append('title', 'my test title');
-      formData.append('description', 'desc');
-      formData.append('genre', 'etude');
-      formData.append('class', '2');
-      formData.append('level', Level.Average);
+      formData.append('title', this.title.value);
+      formData.append('description', this.description);
+      formData.append('genre', this.genre);
+      formData.append('class', this.selectedClass);
+      formData.append('level', this.level);
 
       this.uploadSub = this.filesService.sendFile(formData)
-        .pipe(
-          finalize(() => this.reset())
-        )
-        .subscribe((httpEvent: any) => {
-          console.log('httpEvent', httpEvent);
+        .subscribe(
+          (httpEvent) => {
+            console.log('httpEvent', httpEvent);
 
-          if (httpEvent.type === HttpEventType.UploadProgress) {
-            this.uploadProgress = Math.round(100 * (httpEvent.loaded / httpEvent.total));
+            if (httpEvent.type === HttpEventType.Response && httpEvent.status === 200) {
+              this.loading = false;
+              this.dialog.closeAll();
+              this.snackBar.open('Data is sent', 'Ok', {
+                horizontalPosition: 'start',
+                verticalPosition: 'top',
+              });
+              //   const test = new Uint8Array([httpEvent.body.file.data]);
+              //   const blob = new Blob([test], {type: 'image/jpeg'});
+              //   const url = window.URL.createObjectURL(blob);
+              //   this.imageBlob = url;
+              //   // const pwa = window.open(url);
+              //   // if (!pwa || pwa.closed || typeof pwa.closed === 'undefined') {
+              //   //   alert('Please disable your Pop-up blocker and try again.');
+              //   // }
+            }
+          },
+          (error) => {
+            this.error = error.error;
+            this.loading = false;
+          },
+          () => {
+            this.uploadSub = null;
           }
-          // if (httpEvent.type === HttpEventType.Response) {
-          //   const test = new Uint8Array([httpEvent.body.file.data]);
-          //   const blob = new Blob([test], {type: 'image/jpeg'});
-          //   const url = window.URL.createObjectURL(blob);
-          //   this.imageBlob = url;
-          //   // const pwa = window.open(url);
-          //   // if (!pwa || pwa.closed || typeof pwa.closed === 'undefined') {
-          //   //   alert('Please disable your Pop-up blocker and try again.');
-          //   // }
-          // }
-        });
+        );
     }
-  }
-
-  public sendData() {
-    console.log('title: ', this.title.value);
-    console.log('description: ', this.description);
-    console.log('selectedGenre: ', this.selectedGenre);
-    console.log('selectedLevel: ', this.selectedLevel);
-    console.log('selectedClass: ', this.selectedClass);
   }
 
 }

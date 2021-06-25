@@ -19,7 +19,7 @@
 
       <mat-form-field appearance="fill" class="form">
         <mat-label>{{ 'home.options.selectClass' | translate }}</mat-label>
-        <mat-select [(value)]="selectedClass" (change)="select($event)">
+        <mat-select [(value)]="selectedClass" (change)="select($event)" required>
           <mat-option></mat-option>
           <mat-option [value]="options.value"
                       *ngFor="let options of classes">{{options.viewValue}} {{ 'home.options.class' | translate}}</mat-option>
@@ -28,7 +28,7 @@
 
       <mat-form-field appearance="fill" class="form">
         <mat-label>{{ 'home.options.selectGenre' | translate }}</mat-label>
-        <mat-select [(value)]="selectedGenre" (change)="selectGenre($event)">
+        <mat-select [(value)]="genre" (change)="selectGenre($event)" required>
           <mat-option></mat-option>
           <mat-option [value]="option.value"
                       *ngFor="let option of genres">{{ option.viewValue | translate}}</mat-option>
@@ -37,7 +37,7 @@
 
       <mat-form-field appearance="fill" class="form">
         <mat-label>{{ 'home.options.selectLevel' | translate }}</mat-label>
-        <mat-select [(value)]="selectedLevel" (change)="selectLevel($event)">
+        <mat-select [(value)]="level" (change)="selectLevel($event)" required>
           <mat-option></mat-option>
           <mat-option [value]="option.value"
                       *ngFor="let option of levels">{{ option.viewValue | translate}}</mat-option>
@@ -49,26 +49,16 @@
 
       <div class="file-upload">
         {{fileName || 'No files uploaded yet.'}}
-        <button mat-mini-fab color="primary" class="upload-btn"
+        <button mat-mini-fab color="primary"
+                style="margin-left: 9px;"
+                class="upload-btn"
                 (click)="fileUpload.click()">
           <mat-icon>attach_file</mat-icon>
         </button>
       </div>
 
-      <div class="progress">
-        <mat-progress-bar *ngIf="uploadProgress"
-                          class="progress-bar"
-                          mode="determinate"
-                          [value]="uploadProgress"
-        >
-        </mat-progress-bar>
-        <mat-icon class="cancel-upload" (click)="cancelUpload()"
-                  *ngIf="uploadProgress">delete_forever
-        </mat-icon>
-      </div>
     </div>
 
-    <h3>Incredible tooling</h3>
     <p>Build features quickly with simple, declarative templates. Extend the template language with
       your own components and use a wide array of existing components. Get immediate Angular-specific
       help and feedback with nearly every IDE and editor. All this comes together so you can focus
@@ -86,21 +76,24 @@
   </div>
 
 </mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-raised-button
-          color="primary"
-          [mat-dialog-close]="true"
-          cdkFocusInitial
-          [disabled]="loading"
-          (click)="sendData()"
-  >
-    {{ 'modals.send' | translate }}
-  </button>
-  <button mat-stroked-button
-          color="warn"
-          mat-dialog-close
-          [disabled]="loading"
-  >
-    {{ 'modals.close' | translate }}
-  </button>
+<mat-dialog-actions style="justify-content: space-between">
+
+  <p style="color: red">{{ error ? error : '' }}</p>
+
+  <div>
+    <button mat-raised-button
+            color="primary"
+            [disabled]="loading || title.invalid || !genre || !selectedClass || !level || !files"
+            (click)="sendData()"
+    >
+      {{ 'modals.send' | translate }}
+    </button>
+    <button mat-stroked-button
+            color="warn"
+            mat-dialog-close
+            [disabled]="loading"
+    >
+      {{ 'modals.close' | translate }}
+    </button>
+  </div>
 </mat-dialog-actions>
