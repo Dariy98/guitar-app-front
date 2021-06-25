@@ -8,4 +8,12 @@
   <a *ngIf="isRegisterPage" mat-flat-button href="/login">
     {{ 'auth.buttons.haveAcc' | translate }}
   </a>
+
+  <button *ngIf="!isRegisterPage && !isLoginPage"
+          mat-raised-button
+          color="accent"
+          (click)="openDialog()"
+  >
+    {{ 'header.suggestOption' | translate }}
+  </button>
 </mat-toolbar>

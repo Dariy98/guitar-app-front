@@ -1,4 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {ModalForAddComponent} from '../../modal-for-add/modal-for-add/modal-for-add.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-header',
@@ -7,13 +9,23 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() {
+  constructor(
+    private dialog: MatDialog,
+  ) {
   }
 
   @Input('isRegisterPage') isRegisterPage = false;
   @Input('isLoginPage') isLoginPage = false;
 
   ngOnInit(): void {
+  }
+
+  public openDialog() {
+    const dialogRef = this.dialog.open(ModalForAddComponent, {disableClose: true});
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
 }

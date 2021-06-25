@@ -1,0 +1,106 @@
+<h2 mat-dialog-title>Test</h2>
+<mat-dialog-content class="mat-typography">
+
+  <div *ngIf="!loading">
+    <h3>Develop across all platforms</h3>
+
+    <div class="form-wrapper">
+
+      <mat-form-field appearance="fill" class="form">
+        <mat-label>Enter title</mat-label>
+        <input matInput [formControl]="title" required>
+        <mat-error *ngIf="title.invalid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="form">
+        <mat-label>You can enter some description</mat-label>
+        <input matInput (change)="changeDesc($event)" placeholder="Maybe need some description...">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="form">
+        <mat-label>{{ 'home.options.selectClass' | translate }}</mat-label>
+        <mat-select [(value)]="selectedClass" (change)="select($event)">
+          <mat-option></mat-option>
+          <mat-option [value]="options.value"
+                      *ngFor="let options of classes">{{options.viewValue}} {{ 'home.options.class' | translate}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="form">
+        <mat-label>{{ 'home.options.selectGenre' | translate }}</mat-label>
+        <mat-select [(value)]="selectedGenre" (change)="selectGenre($event)">
+          <mat-option></mat-option>
+          <mat-option [value]="option.value"
+                      *ngFor="let option of genres">{{ option.viewValue | translate}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="form">
+        <mat-label>{{ 'home.options.selectLevel' | translate }}</mat-label>
+        <mat-select [(value)]="selectedLevel" (change)="selectLevel($event)">
+          <mat-option></mat-option>
+          <mat-option [value]="option.value"
+                      *ngFor="let option of levels">{{ option.viewValue | translate}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <input type="file" class="file-input" multiple
+             (change)="fileSelected($event)" #fileUpload>
+
+      <div class="file-upload">
+        {{fileName || 'No files uploaded yet.'}}
+        <button mat-mini-fab color="primary" class="upload-btn"
+                (click)="fileUpload.click()">
+          <mat-icon>attach_file</mat-icon>
+        </button>
+      </div>
+
+      <div class="progress">
+        <mat-progress-bar *ngIf="uploadProgress"
+                          class="progress-bar"
+                          mode="determinate"
+                          [value]="uploadProgress"
+        >
+        </mat-progress-bar>
+        <mat-icon class="cancel-upload" (click)="cancelUpload()"
+                  *ngIf="uploadProgress">delete_forever
+        </mat-icon>
+      </div>
+    </div>
+
+    <h3>Incredible tooling</h3>
+    <p>Build features quickly with simple, declarative templates. Extend the template language with
+      your own components and use a wide array of existing components. Get immediate Angular-specific
+      help and feedback with nearly every IDE and editor. All this comes together so you can focus
+      on building amazing apps rather than trying to make the code work.</p>
+
+    <h3>Architecture overview</h3>
+
+    <p>Angular is a platform and framework for building client applications in HTML and TypeScript.
+      Angular is itself written in TypeScript. It implements core and optional functionality as a
+      set of TypeScript libraries that you import into your apps.</p>
+  </div>
+
+  <div class="spinner-wrapper" *ngIf="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button
+          color="primary"
+          [mat-dialog-close]="true"
+          cdkFocusInitial
+          [disabled]="loading"
+          (click)="sendData()"
+  >
+    {{ 'modals.send' | translate }}
+  </button>
+  <button mat-stroked-button
+          color="warn"
+          mat-dialog-close
+          [disabled]="loading"
+  >
+    {{ 'modals.close' | translate }}
+  </button>
+</mat-dialog-actions>

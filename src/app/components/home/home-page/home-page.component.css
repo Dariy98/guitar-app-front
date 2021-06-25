@@ -24,30 +24,26 @@
   width: 100%;
 }
 
-.file-input {
-  display: none;
-}
-
 .scroll-cards {
   overflow-y: scroll;
   height: 100%;
-/*  !*display: flex;*!*/
-/*  !*flex-wrap: wrap;*!*/
+  /*  !*display: flex;*!*/
+  /*  !*flex-wrap: wrap;*!*/
 
-/*  !* overflow-y: scroll; *!*/
-/*  !* height: 100%; *!*/
-/*  !* display: flex; *!*/
-/*  !* flex-wrap: wrap; *!*/
-/*  !* border: 4px solid rgba(0, 0, 0, .4); *!*/
-/*  !* border-radius: 5px; *!*/
-/*  width: 100%;*/
-/*  height: 100%;*/
-/*  !* position: relative; *!*/
-/*  !* margin: 0 auto; *!*/
-/*  overflow-y: scroll;*/
-/*  !* z-index: 5; *!*/
-/*  display: flex;*/
-/*  flex-direction: row;*/
-/*  flex-wrap: wrap;*/
-/*!* justify-content: flex-start; *!*/
+  /*  !* overflow-y: scroll; *!*/
+  /*  !* height: 100%; *!*/
+  /*  !* display: flex; *!*/
+  /*  !* flex-wrap: wrap; *!*/
+  /*  !* border: 4px solid rgba(0, 0, 0, .4); *!*/
+  /*  !* border-radius: 5px; *!*/
+  /*  width: 100%;*/
+  /*  height: 100%;*/
+  /*  !* position: relative; *!*/
+  /*  !* margin: 0 auto; *!*/
+  /*  overflow-y: scroll;*/
+  /*  !* z-index: 5; *!*/
+  /*  display: flex;*/
+  /*  flex-direction: row;*/
+  /*  flex-wrap: wrap;*/
+  /*!* justify-content: flex-start; *!*/
 }

@@ -18,6 +18,7 @@ import {HomeModule} from './components/home/home.module';
 import {HeaderModule} from './components/layout/header/header.module';
 import {LoginModule} from './components/login/login.module';
 import {FooterModule} from './components/layout/footer/footer.module';
+import {ModalForAddModule} from './components/modal-for-add/modal-for-add.module';
 
 
 export function HttpLoadFactory(http: HttpClient) {
@@ -45,6 +46,7 @@ export function HttpLoadFactory(http: HttpClient) {
     HeaderModule,
     LoginModule,
     FooterModule,
+    ModalForAddModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

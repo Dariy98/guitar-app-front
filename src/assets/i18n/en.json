@@ -28,5 +28,12 @@
       "average": "average",
       "good": "good"
     }
+  },
+  "header": {
+    "suggestOption": "Suggest your option"
+  },
+  "modals": {
+    "close": "Close",
+    "send": "Send"
   }
 }
